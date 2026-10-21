@@ -16,6 +16,10 @@ src/unlearn/
   metrics.py             # Accuracy and membership-inference metrics
   methods/
     finetune.py          # Retain-set fine-tuning unlearning method
+    Fauchan_1.py         # 1st place code
+    Kookmin_2.py         # 2nd place code
+    Seif_3.py            # 3rd place code
+    Amnesiacs_6.py       # 6th place code
 ```
 
 The starter-kit notebook is the reference implementation. The local notebook is
