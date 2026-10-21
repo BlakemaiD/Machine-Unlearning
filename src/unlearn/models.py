@@ -2,7 +2,7 @@ from pathlib import Path
 
 import requests
 import torch
-from torchvision.models import resnet18
+from torchvision.models import resnet18 #model used 
 
 from .device import DEVICE
 
