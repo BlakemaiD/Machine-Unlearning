@@ -6,10 +6,9 @@ from sklearn import linear_model, model_selection
 
 from .device import DEVICE
 
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
 def accuracy(net, loader):
     """Return accuracy on a dataset given by the data loader."""
+    net.to(DEVICE)
     correct = 0
     total = 0
     for inputs, targets in loader:
@@ -24,6 +23,7 @@ def accuracy(net, loader):
 @torch.no_grad()
 def compute_losses(net, loader):
     """Per-sample cross-entropy losses."""
+    net.to(DEVICE)
     net.eval()
     criterion = nn.CrossEntropyLoss(reduction="none")
     all_losses = []

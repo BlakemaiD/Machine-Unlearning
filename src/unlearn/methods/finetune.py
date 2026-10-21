@@ -5,6 +5,7 @@ from ..device import DEVICE
 def unlearning(net, retain, forget, validation, epochs=5, lr=0.1,
                momentum=0.9, weight_decay=5e-4):
     """Unlearning by fine-tuning on the retain set only (forget/validation unused)."""
+    net.to(DEVICE)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
