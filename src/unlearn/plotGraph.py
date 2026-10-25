@@ -4,8 +4,8 @@ from .metrics import accuracy, compute_losses, mia_accuracy
 
 def plot_forget_vs_test(models, forget_loader, test_loader, xlim=None):
     """models: dict of name -> net. One panel per model, forget vs test loss histograms."""
-    fig, axes = plt.subplots(1, len(models), figsize=(6 * len(models), 5),
-                             sharey=True, squeeze=False)
+   
+    fig, axes = plt.subplots(1, len(models), figsize=(6 * len(models), 5), sharey=True, squeeze=False)
     max_loss = 0
     for ax, (name, net) in zip(axes[0], models.items()):
         f = compute_losses(net, forget_loader)
