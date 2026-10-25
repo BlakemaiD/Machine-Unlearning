@@ -1,9 +1,9 @@
 from torch import nn, optim
 from ..device import DEVICE
 
-
-def unlearning(net, retain, forget, validation, epochs=5, lr=0.1,
-               momentum=0.9, weight_decay=5e-4):
+# trains the copied model on the retain set only for five epochs by default
+# using cross-entropy loss, SGD, and a cosine learning-rate schedule.
+def unlearning(net, retain, forget, validation, epochs=5, lr=0.1, momentum=0.9, weight_decay=5e-4): #stats from the 01
     """Unlearning by fine-tuning on the retain set only (forget/validation unused)."""
     net.to(DEVICE)
     criterion = nn.CrossEntropyLoss()
