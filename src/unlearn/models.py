@@ -6,7 +6,6 @@ from torchvision.models import resnet18 #model used
 
 from .device import DEVICE
 
-
 WEIGHTS_URL = "https://storage.googleapis.com/unlearning-challenge/weights_resnet18_cifar10.pth"
 
 
