@@ -5,7 +5,7 @@ It reinitializes the lowest-gradient fraction of each convolution, then fine-tun
 During fine-tuning, convolution-weight gradients are scaled to match the notebook's mask.
 
 Hyperparameters: init_rate=0.3, lr=0.001, epoch=5, momentum=0.9,
-weight_decay=5e-4, sch="linear".
+weight_decay=5e-4, sch="linear" for unlearning().
 """
 
 import torch
@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from torch import nn, optim
 from torch.utils.data import DataLoader, Subset
 
-from ..device import DEVICE
+from ..device import DEVICE 
 
 
 def _ce_loss(net, x, y):
