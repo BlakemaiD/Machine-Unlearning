@@ -52,3 +52,50 @@ def mia_accuracy(net, forget_loader, test_loader, seed=0):
     X = np.concatenate((t, f)).reshape(-1, 1)
     y = [0] * len(t) + [1] * len(f)
     return simple_mia(X, y).mean()
+
+
+@torch.no_grad()
+def accuracy_eval(net, loader):
+    """Return accuracy in eval mode and restore the model's previous mode."""
+    net.to(DEVICE)
+    was_training = net.training
+    net.eval()
+    try:
+        correct = 0
+        total = 0
+        for inputs, targets in loader:
+            inputs, targets = inputs.to(DEVICE), targets.to(DEVICE)
+            predicted = net(inputs).argmax(dim=1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+        if total == 0:
+            raise ValueError("Cannot evaluate accuracy on an empty loader.")
+        return correct / total
+    finally:
+        net.train(was_training)
+
+
+@torch.no_grad()
+def get_forget_confs(net, forget_loader_no_shuffle):
+    """Return official correct-class confidences in the loader's stable order."""
+    from .official_metric import logit_scaled_confidence
+
+    net.to(DEVICE)
+    was_training = net.training
+    net.eval()
+    confidences = []
+    try:
+        for inputs, targets in forget_loader_no_shuffle:
+            logits = (
+                net(inputs.to(DEVICE))
+                .detach()
+                .to(device="cpu", dtype=torch.float64)
+                .numpy()
+            )
+            labels = targets.detach().to(device="cpu").numpy()
+            confidences.append(logit_scaled_confidence(logits, labels))
+    finally:
+        net.train(was_training)
+    if not confidences:
+        raise ValueError("Cannot compute forget confidences for an empty loader.")
+    return np.concatenate(confidences)
