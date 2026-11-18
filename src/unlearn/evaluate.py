@@ -411,20 +411,22 @@ def train_or_load_retrained(
 
 
 def adapt_method(method_fn):
-    """Wrap a legacy (net, retain, forget, validation) method in a seeded API."""
+    """Adapt common legacy methods and supply evaluator seed/device arguments."""
     signature = inspect.signature(method_fn)
-    accepts_seed = "seed" in signature.parameters
 
     def adapted(net_copy, retain_loader, forget_loader, val_loader, seed):
-        if accepts_seed:
-            return method_fn(
-                net_copy,
-                retain_loader,
-                forget_loader,
-                val_loader,
-                seed=seed,
-            )
-        return method_fn(net_copy, retain_loader, forget_loader, val_loader)
+        kwargs = {}
+        if "seed" in signature.parameters:
+            kwargs["seed"] = seed
+        if "device" in signature.parameters:
+            kwargs["device"] = DEVICE
+        return method_fn(
+            net_copy,
+            retain_loader,
+            forget_loader,
+            val_loader,
+            **kwargs,
+        )
 
     return adapted
 

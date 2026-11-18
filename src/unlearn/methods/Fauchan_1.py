@@ -30,9 +30,6 @@ Stage 2: Contrastive learning between forgotten and retained samples
 Returns: updated model
 '''
 
-#reproducibility
-torch.manual_seed(3047) #initializes model weight randomness for reproducibility
-
 def unpack_batch(sample):
     if isinstance(sample, dict):
         images = sample.get(("image"), sample.get("images"))

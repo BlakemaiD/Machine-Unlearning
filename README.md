@@ -21,8 +21,8 @@ The notebook [`01_starter_kit.ipynb`](https://nbviewer.org/github/unlearning-cha
 ## How to run the official score
 
 From the repository root, open `Notebooks/04_official_score.ipynb` in Jupyter or
-VS Code and run its cells. It evaluates the retain-only fine-tuning baseline
-and `Kookmin_2` against retain-only models retrained from scratch, reporting
+VS Code and run its cells. It evaluates the baseline and registered unlearning
+methods against retain-only models retrained from scratch, reporting
 official forgetting quality F, retain/test utility, final score, runtime, N,
 and the loss-based MIA diagnostic.
 
@@ -39,3 +39,8 @@ checkpoint, but not its training duration or schedule. The evaluation therefore
 uses an explicit 30-epoch cosine-schedule scratch recipe with those documented
 settings. Treat resulting utility ratios and final scores as a local reference,
 not an exact reproduction of the unknown checkpoint-training recipe.
+
+For quick checks before the multi-model score, run
+`Notebooks/02_local_test.ipynb` (single-run method smoke test) and
+`Notebooks/03_data_comparison.ipynb` (split/class-distribution report). Their
+diagnostic metrics are not the official F score.

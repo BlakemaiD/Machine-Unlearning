@@ -10,11 +10,13 @@ from torch.utils.data import DataLoader, TensorDataset
 from unlearn.evaluate import (
     EvaluationResults,
     TrainingRecipe,
+    adapt_method,
     make_forget_loader,
     run_method,
     score,
     train_or_load_retrained,
 )
+from unlearn.device import DEVICE
 from unlearn.metrics import accuracy_eval, get_forget_confs
 from unlearn.official_metric import forget_score, logit_scaled_confidence
 
@@ -75,6 +77,20 @@ class EvaluationTests(unittest.TestCase):
         model.train()
         accuracy_eval(model, self.test)
         self.assertTrue(model.training)
+
+    def test_adapter_supplies_method_seed_and_device(self):
+        received = {}
+
+        def method(net, retain, forget, validation, *, seed=None, device=None):
+            received["seed"] = seed
+            received["device"] = device
+            return net
+
+        net = TinyClassifier()
+        adapted = adapt_method(method)
+        result = adapted(net, None, None, None, seed=37)
+        self.assertIs(result, net)
+        self.assertEqual(received, {"seed": 37, "device": DEVICE})
         loader = make_forget_loader(self.forget, max_examples=None, sample_seed=2)
         self.assertEqual(len(get_forget_confs(model, loader)), len(self.forget.dataset))
         ordered_labels = torch.cat([targets for _, targets in loader])

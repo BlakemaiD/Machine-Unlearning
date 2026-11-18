@@ -103,7 +103,7 @@ def unlearning(
     for ep in range(epochs):
         i=0
         net.train()
-        ### this needs to be fixed to l ook at a dictionary of the sample, not just the image and label
+        ### this needs to be fixed to look at a dictionary of the sample, not just the image and label
         for sample in retain_loader:
             inputs, targets = unpack_batch(sample)
 
