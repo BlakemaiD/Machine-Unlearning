@@ -42,7 +42,7 @@ def kl_loss(model_logits, teacher_logits, temperature=1.0):
 
 
 def soft_cross_entropy(student_logits, soft_targets):
-    """Cross-entropy between student logits and a teacher probability target."""
+    """Match the notebook helper, which applies log_softmax to its input."""
     return torch.sum(
         -soft_targets * F.log_softmax(student_logits, dim=1),
         dim=1,
@@ -98,8 +98,7 @@ def unlearning(
         raise TypeError("Amnesiacs requires a model with ResNet-style conv1 and fc layers.")
 
     net.to(DEVICE)
-    if teacher is None:
-        teacher = copy.deepcopy(net)
+    teacher = copy.deepcopy(net if teacher is None else teacher)
     teacher.to(DEVICE)
     teacher.eval()
     for parameter in teacher.parameters():
@@ -110,9 +109,9 @@ def unlearning(
 
     criterion = nn.CrossEntropyLoss(
         weight=(
-            class_weight.to(DEVICE)
-            if isinstance(class_weight, torch.Tensor)
-            else class_weight
+            torch.as_tensor(class_weight, dtype=torch.float32, device=DEVICE)
+            if class_weight is not None
+            else None
         )
     )
     warmup_optimizer = optim.SGD(
@@ -124,6 +123,7 @@ def unlearning(
 
     for _ in range(warmup_epochs):
         net.train()
+        saw_validation_examples = False
         for sample in validation:
             images, labels = _unpack_batch(sample)
             images = images.to(DEVICE)
@@ -134,6 +134,7 @@ def unlearning(
             if images is None:
                 continue
 
+            saw_validation_examples = True
             warmup_optimizer.zero_grad()
             student_logits = net(images)
             with torch.no_grad():
@@ -141,6 +142,10 @@ def unlearning(
             loss = kl_loss(student_logits, teacher_logits, temperature)
             loss.backward()
             warmup_optimizer.step()
+        if not saw_validation_examples:
+            raise ValueError(
+                "The validation loader has no examples in validation_classes."
+            )
 
     retain_optimizer = optim.SGD(
         net.parameters(),
@@ -165,9 +170,15 @@ def unlearning(
             with torch.no_grad():
                 teacher_logits = teacher(images)
             teacher_probs = F.softmax(teacher_logits / temperature, dim=1)
+            # The notebook passes log-softmax output into this helper, which
+            # applies log_softmax a second time; preserve that reference behavior.
+            student_log_probs = F.log_softmax(
+                student_logits / temperature,
+                dim=1,
+            )
 
             loss = soft_cross_entropy(
-                student_logits / temperature,
+                student_log_probs,
                 teacher_probs,
             )
             loss = loss + criterion(student_logits, labels)
