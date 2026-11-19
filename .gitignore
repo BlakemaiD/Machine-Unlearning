@@ -1,1 +1,14 @@
-data
+# datasets (downloaded by the code)
+data/
+# experiment outputs: model checkpoints, run logits, results (live on the cluster;
+# pull summaries with cluster/sync.sh pull-results)
+artifacts*/
+tasks/
+cluster/logs/*
+!cluster/logs/.gitkeep
+# downloaded checkpoints (weights_resnet18_cifar10.pth was committed earlier and stays tracked)
+retrain_weights_resnet18_cifar10.pth
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

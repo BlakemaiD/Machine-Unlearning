@@ -1,5 +1,10 @@
+"""Baseline: fine-tune on the retain set only (NeurIPS 2023 starting-kit baseline)."""
+
 from torch import nn, optim
 from ..device import DEVICE
+
+INFO = {"rank": None, "team": "starting-kit baseline", "family": "retain finetune"}
+DEFAULTS = {"epochs": 5, "lr": 0.1, "momentum": 0.9, "weight_decay": 5e-4}
 
 
 def unlearning(net, retain, forget, validation, epochs=5, lr=0.1,

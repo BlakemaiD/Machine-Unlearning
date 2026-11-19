@@ -1,0 +1,86 @@
+# Experiment matrix for scripts/make_tasks.py.
+#
+# n_retrain : retrain-from-scratch oracle models (competition used 512; the
+#             forgetting score can resolve epsilon up to ceil(ln(N-1)), so
+#             N=64 -> 5, N=128 -> 5, N=512 -> 7).
+# n_runs    : unlearning runs per method (= seeds 0..n_runs-1), all starting
+#             from the same original model (competition protocol "Reuse-N-1").
+# origs     : which original model the methods start from
+#             own       = our reference/original/seed_0000.pt, trained with the same
+#                         recipe as the oracle models (clean comparison)
+#             challenge = the organisers' CIFAR-10 ResNet-18 checkpoint (as in the
+#                         competition's CIFAR starter kit; its training recipe is
+#                         not published, so the oracle may differ slightly from it)
+# methods   : "all", "competition", "baselines", or an explicit list.
+# hparams   : optional per-method extra settings, run under their own tag:
+#               hparams: {neggrad_plus: {a0.95: {alpha: 0.95}}}
+
+defaults:
+  version: v1         # output folder <out>/<dataset>/<arch>/<version>/; bump to keep old models
+  n_retrain: 64
+  n_runs: 64
+  methods: all
+  batch_size: 64
+  save_models: true   # save every model checkpoint (.pt + .json card); logits always saved
+  hparams:
+    # SCRUB's published defaults target small forget sets; with 5,000 forget images
+    # its max-steps diverge. The organisers' tuned setting (arXiv:2406.09073, A.7):
+    scrub:
+      tuned_1ep: {epochs: 1, msteps: 1}
+
+experiments:
+  cifar10_resnet18:
+    dataset: cifar10
+    arch: resnet18
+    origs: [own, challenge]
+
+  # The 10 further SOTA methods, same models / version as cifar10_resnet18
+  # (results land in the same v1 folder, so one table covers all 26 methods).
+  cifar10_resnet18_sota:
+    dataset: cifar10
+    arch: resnet18
+    origs: [own, challenge]
+    methods: sota
+
+  cifar10_mobilenet_v2:
+    dataset: cifar10
+    arch: mobilenet_v2
+    origs: [own]
+
+  cifar10_efficientnet_b0:
+    dataset: cifar10
+    arch: efficientnet_b0
+    origs: [own]
+
+  # The competition's real data (CASIA-SURF age groups, 32x32). Licence-gated:
+  # set data_root to the downloaded dataset, then enable.
+  surf_resnet18:
+    enabled: false
+    dataset: surf
+    arch: resnet18
+    data_root: /path/to/CASIA-SURF
+    origs: [own]
+
+  # End-to-end pipeline check: tiny oracle training, 3 runs per method.
+  smoke:
+    dataset: cifar10
+    arch: resnet18
+    out: artifacts_smoke
+    n_retrain: 3
+    n_runs: 3
+    origs: [own, challenge]
+    recipe_override: [epochs=2]
+    save_models: false
+
+  # Pipeline check for the SOTA methods only.
+  smoke_sota:
+    dataset: cifar10
+    arch: resnet18
+    out: artifacts_smoke
+    n_retrain: 3
+    n_runs: 3
+    origs: [own, challenge]
+    methods: sota
+    recipe_override: [epochs=2]
+    save_models: false
+
