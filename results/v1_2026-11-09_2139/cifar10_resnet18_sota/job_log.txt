@@ -1,0 +1,157 @@
+node g4-rtx6000  experiments: cifar10_resnet18_sota  slots/gpu: 7
+index, name, memory.used [MiB], memory.total [MiB]
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+2, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+3, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+4, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+5, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+6, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+7, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+shift=  0.0  ours=0.175000  official=0.175000  OK
+shift=  0.3  ours=0.143750  official=0.143750  OK
+shift=  1.0  ours=0.061198  official=0.061198  OK
+shift=  3.0  ours=0.013542  official=0.013542  OK
+shift= 10.0  ours=0.000000  official=0.000000  OK
+logit-scaled confidence: OK
+METRIC PORT OK
+65 reference tasks, 1280 unlearning tasks -> tasks/cifar10_resnet18_sota
+GPUs ['0', '1', '2', '3', '4', '5', '6', '7'], 7 slots each -> 56 workers
+[1_reference.txt] 10/65 done, 0 failed, 0.2 min elapsed
+[1_reference.txt] 20/65 done, 0 failed, 0.6 min elapsed
+[1_reference.txt] 30/65 done, 0 failed, 0.6 min elapsed
+[1_reference.txt] 40/65 done, 0 failed, 0.6 min elapsed
+[1_reference.txt] 50/65 done, 0 failed, 0.6 min elapsed
+[1_reference.txt] 60/65 done, 0 failed, 0.6 min elapsed
+[1_reference.txt] 65/65 done, 0 failed, 0.6 min elapsed
+[2_unlearn.txt] 10/1280 done, 0 failed, 0.3 min elapsed
+[2_unlearn.txt] 20/1280 done, 0 failed, 0.6 min elapsed
+[2_unlearn.txt] 30/1280 done, 0 failed, 0.7 min elapsed
+[2_unlearn.txt] 40/1280 done, 0 failed, 1.0 min elapsed
+[2_unlearn.txt] 50/1280 done, 0 failed, 1.1 min elapsed
+[2_unlearn.txt] 60/1280 done, 0 failed, 1.3 min elapsed
+[2_unlearn.txt] 70/1280 done, 0 failed, 1.6 min elapsed
+[2_unlearn.txt] 80/1280 done, 0 failed, 1.8 min elapsed
+[2_unlearn.txt] 90/1280 done, 0 failed, 2.2 min elapsed
+[2_unlearn.txt] 100/1280 done, 0 failed, 2.4 min elapsed
+[2_unlearn.txt] 110/1280 done, 0 failed, 2.8 min elapsed
+[2_unlearn.txt] 120/1280 done, 0 failed, 3.0 min elapsed
+[2_unlearn.txt] 130/1280 done, 0 failed, 3.4 min elapsed
+[2_unlearn.txt] 140/1280 done, 0 failed, 3.7 min elapsed
+[2_unlearn.txt] 150/1280 done, 0 failed, 4.0 min elapsed
+[2_unlearn.txt] 160/1280 done, 0 failed, 4.3 min elapsed
+[2_unlearn.txt] 170/1280 done, 0 failed, 4.6 min elapsed
+[2_unlearn.txt] 180/1280 done, 0 failed, 4.8 min elapsed
+[2_unlearn.txt] 190/1280 done, 0 failed, 5.3 min elapsed
+[2_unlearn.txt] 200/1280 done, 0 failed, 5.6 min elapsed
+[2_unlearn.txt] 210/1280 done, 0 failed, 5.9 min elapsed
+[2_unlearn.txt] 220/1280 done, 0 failed, 6.3 min elapsed
+[2_unlearn.txt] 230/1280 done, 0 failed, 6.6 min elapsed
+[2_unlearn.txt] 240/1280 done, 0 failed, 7.0 min elapsed
+[2_unlearn.txt] 250/1280 done, 0 failed, 7.3 min elapsed
+[2_unlearn.txt] 260/1280 done, 0 failed, 7.6 min elapsed
+[2_unlearn.txt] 270/1280 done, 0 failed, 8.0 min elapsed
+[2_unlearn.txt] 280/1280 done, 0 failed, 8.2 min elapsed
+[2_unlearn.txt] 290/1280 done, 0 failed, 8.5 min elapsed
+[2_unlearn.txt] 300/1280 done, 0 failed, 8.8 min elapsed
+[2_unlearn.txt] 310/1280 done, 0 failed, 9.2 min elapsed
+[2_unlearn.txt] 320/1280 done, 0 failed, 9.4 min elapsed
+[2_unlearn.txt] 330/1280 done, 0 failed, 9.7 min elapsed
+[2_unlearn.txt] 340/1280 done, 0 failed, 10.0 min elapsed
+[2_unlearn.txt] 350/1280 done, 0 failed, 10.3 min elapsed
+[2_unlearn.txt] 360/1280 done, 0 failed, 10.5 min elapsed
+[2_unlearn.txt] 370/1280 done, 0 failed, 10.9 min elapsed
+[2_unlearn.txt] 380/1280 done, 0 failed, 11.0 min elapsed
+[2_unlearn.txt] 390/1280 done, 0 failed, 11.5 min elapsed
+[2_unlearn.txt] 400/1280 done, 0 failed, 11.7 min elapsed
+[2_unlearn.txt] 410/1280 done, 0 failed, 12.1 min elapsed
+[2_unlearn.txt] 420/1280 done, 0 failed, 12.4 min elapsed
+[2_unlearn.txt] 430/1280 done, 0 failed, 12.7 min elapsed
+[2_unlearn.txt] 440/1280 done, 0 failed, 12.9 min elapsed
+[2_unlearn.txt] 450/1280 done, 0 failed, 13.3 min elapsed
+[2_unlearn.txt] 460/1280 done, 0 failed, 13.6 min elapsed
+[2_unlearn.txt] 470/1280 done, 0 failed, 13.8 min elapsed
+[2_unlearn.txt] 480/1280 done, 0 failed, 14.2 min elapsed
+[2_unlearn.txt] 490/1280 done, 0 failed, 14.5 min elapsed
+[2_unlearn.txt] 500/1280 done, 0 failed, 14.8 min elapsed
+[2_unlearn.txt] 510/1280 done, 0 failed, 15.1 min elapsed
+[2_unlearn.txt] 520/1280 done, 0 failed, 15.3 min elapsed
+[2_unlearn.txt] 530/1280 done, 0 failed, 15.7 min elapsed
+[2_unlearn.txt] 540/1280 done, 0 failed, 15.9 min elapsed
+[2_unlearn.txt] 550/1280 done, 0 failed, 16.3 min elapsed
+[2_unlearn.txt] 560/1280 done, 0 failed, 16.6 min elapsed
+[2_unlearn.txt] 570/1280 done, 0 failed, 16.9 min elapsed
+[2_unlearn.txt] 580/1280 done, 0 failed, 17.3 min elapsed
+[2_unlearn.txt] 590/1280 done, 0 failed, 17.6 min elapsed
+[2_unlearn.txt] 600/1280 done, 0 failed, 17.9 min elapsed
+[2_unlearn.txt] 610/1280 done, 0 failed, 18.2 min elapsed
+[2_unlearn.txt] 620/1280 done, 0 failed, 18.4 min elapsed
+[2_unlearn.txt] 630/1280 done, 0 failed, 18.8 min elapsed
+[2_unlearn.txt] 640/1280 done, 0 failed, 19.0 min elapsed
+[2_unlearn.txt] 650/1280 done, 0 failed, 19.3 min elapsed
+[2_unlearn.txt] 660/1280 done, 0 failed, 19.5 min elapsed
+[2_unlearn.txt] 670/1280 done, 0 failed, 19.9 min elapsed
+[2_unlearn.txt] 680/1280 done, 0 failed, 20.3 min elapsed
+[2_unlearn.txt] 690/1280 done, 0 failed, 20.5 min elapsed
+[2_unlearn.txt] 700/1280 done, 0 failed, 20.9 min elapsed
+[2_unlearn.txt] 710/1280 done, 0 failed, 21.3 min elapsed
+[2_unlearn.txt] 720/1280 done, 0 failed, 21.6 min elapsed
+[2_unlearn.txt] 730/1280 done, 0 failed, 21.9 min elapsed
+[2_unlearn.txt] 740/1280 done, 0 failed, 22.2 min elapsed
+[2_unlearn.txt] 750/1280 done, 0 failed, 22.5 min elapsed
+[2_unlearn.txt] 760/1280 done, 0 failed, 22.7 min elapsed
+[2_unlearn.txt] 770/1280 done, 0 failed, 23.1 min elapsed
+[2_unlearn.txt] 780/1280 done, 0 failed, 23.4 min elapsed
+[2_unlearn.txt] 790/1280 done, 0 failed, 23.7 min elapsed
+[2_unlearn.txt] 800/1280 done, 0 failed, 23.9 min elapsed
+[2_unlearn.txt] 810/1280 done, 0 failed, 24.3 min elapsed
+[2_unlearn.txt] 820/1280 done, 0 failed, 24.6 min elapsed
+[2_unlearn.txt] 830/1280 done, 0 failed, 25.0 min elapsed
+[2_unlearn.txt] 840/1280 done, 0 failed, 25.3 min elapsed
+[2_unlearn.txt] 850/1280 done, 0 failed, 25.5 min elapsed
+[2_unlearn.txt] 860/1280 done, 0 failed, 25.8 min elapsed
+[2_unlearn.txt] 870/1280 done, 0 failed, 26.2 min elapsed
+[2_unlearn.txt] 880/1280 done, 0 failed, 26.4 min elapsed
+[2_unlearn.txt] 890/1280 done, 0 failed, 26.8 min elapsed
+[2_unlearn.txt] 900/1280 done, 0 failed, 27.0 min elapsed
+[2_unlearn.txt] 910/1280 done, 0 failed, 27.4 min elapsed
+[2_unlearn.txt] 920/1280 done, 0 failed, 27.6 min elapsed
+[2_unlearn.txt] 930/1280 done, 0 failed, 28.0 min elapsed
+[2_unlearn.txt] 940/1280 done, 0 failed, 28.3 min elapsed
+[2_unlearn.txt] 950/1280 done, 0 failed, 28.6 min elapsed
+[2_unlearn.txt] 960/1280 done, 0 failed, 28.9 min elapsed
+[2_unlearn.txt] 970/1280 done, 0 failed, 29.3 min elapsed
+[2_unlearn.txt] 980/1280 done, 0 failed, 29.5 min elapsed
+[2_unlearn.txt] 990/1280 done, 0 failed, 29.8 min elapsed
+[2_unlearn.txt] 1000/1280 done, 0 failed, 30.1 min elapsed
+[2_unlearn.txt] 1010/1280 done, 0 failed, 30.4 min elapsed
+[2_unlearn.txt] 1020/1280 done, 0 failed, 30.7 min elapsed
+[2_unlearn.txt] 1030/1280 done, 0 failed, 31.0 min elapsed
+[2_unlearn.txt] 1040/1280 done, 0 failed, 31.3 min elapsed
+[2_unlearn.txt] 1050/1280 done, 0 failed, 31.7 min elapsed
+[2_unlearn.txt] 1060/1280 done, 0 failed, 32.0 min elapsed
+[2_unlearn.txt] 1070/1280 done, 0 failed, 32.3 min elapsed
+[2_unlearn.txt] 1080/1280 done, 0 failed, 32.7 min elapsed
+[2_unlearn.txt] 1090/1280 done, 0 failed, 33.0 min elapsed
+[2_unlearn.txt] 1100/1280 done, 0 failed, 33.2 min elapsed
+[2_unlearn.txt] 1110/1280 done, 0 failed, 33.6 min elapsed
+[2_unlearn.txt] 1120/1280 done, 0 failed, 33.8 min elapsed
+[2_unlearn.txt] 1130/1280 done, 0 failed, 34.2 min elapsed
+[2_unlearn.txt] 1140/1280 done, 0 failed, 34.5 min elapsed
+[2_unlearn.txt] 1150/1280 done, 0 failed, 34.9 min elapsed
+[2_unlearn.txt] 1160/1280 done, 0 failed, 35.1 min elapsed
+[2_unlearn.txt] 1170/1280 done, 0 failed, 35.5 min elapsed
+[2_unlearn.txt] 1180/1280 done, 0 failed, 35.7 min elapsed
+[2_unlearn.txt] 1190/1280 done, 0 failed, 36.0 min elapsed
+[2_unlearn.txt] 1200/1280 done, 0 failed, 36.3 min elapsed
+[2_unlearn.txt] 1210/1280 done, 0 failed, 36.7 min elapsed
+[2_unlearn.txt] 1220/1280 done, 0 failed, 37.0 min elapsed
+[2_unlearn.txt] 1230/1280 done, 0 failed, 37.3 min elapsed
+[2_unlearn.txt] 1240/1280 done, 0 failed, 37.8 min elapsed
+[2_unlearn.txt] 1250/1280 done, 0 failed, 38.1 min elapsed
+[2_unlearn.txt] 1260/1280 done, 0 failed, 38.8 min elapsed
+[2_unlearn.txt] 1270/1280 done, 0 failed, 39.3 min elapsed
+[2_unlearn.txt] 1280/1280 done, 0 failed, 40.3 min elapsed
+python scripts/evaluate.py --dataset cifar10 --arch resnet18 --orig own --version v1
+python scripts/evaluate.py --dataset cifar10 --arch resnet18 --orig challenge --version v1
+collected into /home/mnazari/Projects/MachineUnlearning/results/v1_2026-11-09_2139

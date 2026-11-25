@@ -1,0 +1,40 @@
+{
+ "run_id": "v1_2026-11-09_2125",
+ "collected": "2026-11-09T21:38:24",
+ "slurm_job": "10711",
+ "host": "g4-rtx6000",
+ "code_sha": "3d012748617ba1df",
+ "experiments": {
+  "smoke_sota": {
+   "dataset": "cifar10",
+   "arch": "resnet18",
+   "version": "v1",
+   "n_retrain": 3,
+   "n_runs": 3,
+   "methods": "sota",
+   "extra_hparams": {
+    "scrub": {
+     "tuned_1ep": {
+      "epochs": 1,
+      "msteps": 1
+     }
+    }
+   },
+   "batch_size": 64,
+   "artifacts_dir": "artifacts_smoke/cifar10/resnet18/v1",
+   "reference_models": 1,
+   "origs": {
+    "own": {
+     "results": "results/v1_2026-11-09_2125/smoke_sota/own",
+     "runs": "artifacts_smoke/cifar10/resnet18/v1/own/runs",
+     "models": "artifacts_smoke/cifar10/resnet18/v1/own/models"
+    },
+    "challenge": {
+     "results": "results/v1_2026-11-09_2125/smoke_sota/challenge",
+     "runs": "artifacts_smoke/cifar10/resnet18/v1/challenge/runs",
+     "models": "artifacts_smoke/cifar10/resnet18/v1/challenge/models"
+    }
+   }
+  }
+ }
+}

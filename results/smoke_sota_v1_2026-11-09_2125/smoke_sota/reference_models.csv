@@ -1,0 +1,2 @@
+role,seed,retain_acc,forget_acc,test_acc,val_acc,mia_forget_vs_test,mia_efficacy,train_minutes,gpu,code_sha,checkpoint
+original,0,0.5347111111111111,0.533,0.532,0.5244,0.5021,0.43679999999999997,0.06012692681667128,NVIDIA RTX PRO 6000 Blackwell Server Edition,aa792ee578884182,artifacts_smoke/cifar10/resnet18/v1/reference/original/seed_0000.pt

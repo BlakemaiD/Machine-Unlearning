@@ -1,0 +1,336 @@
+node g4-rtx6000  experiments: cifar10_resnet18  slots/gpu: 7
+index, name, memory.used [MiB], memory.total [MiB]
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+2, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+3, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+4, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+5, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+6, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+7, NVIDIA RTX PRO 6000 Blackwell Server Edition, 0 MiB, 97887 MiB
+shift=  0.0  ours=0.175000  official=0.175000  OK
+shift=  0.3  ours=0.143750  official=0.143750  OK
+shift=  1.0  ours=0.061198  official=0.061198  OK
+shift=  3.0  ours=0.013542  official=0.013542  OK
+shift= 10.0  ours=0.000000  official=0.000000  OK
+logit-scaled confidence: OK
+METRIC PORT OK
+65 reference tasks, 2176 unlearning tasks -> tasks/cifar10_resnet18
+GPUs ['0', '1', '2', '3', '4', '5', '6', '7'], 7 slots each -> 56 workers
+[1_reference.txt] 10/65 done, 0 failed, 11.6 min elapsed
+[1_reference.txt] 20/65 done, 0 failed, 11.8 min elapsed
+[1_reference.txt] 30/65 done, 0 failed, 11.9 min elapsed
+[1_reference.txt] 40/65 done, 0 failed, 12.0 min elapsed
+[1_reference.txt] 50/65 done, 0 failed, 12.1 min elapsed
+[1_reference.txt] 60/65 done, 0 failed, 14.1 min elapsed
+[1_reference.txt] 65/65 done, 0 failed, 15.5 min elapsed
+[2_unlearn.txt] 10/2176 done, 0 failed, 0.6 min elapsed
+[2_unlearn.txt] 20/2176 done, 0 failed, 0.7 min elapsed
+[2_unlearn.txt] 30/2176 done, 0 failed, 1.0 min elapsed
+[2_unlearn.txt] 40/2176 done, 0 failed, 1.1 min elapsed
+[2_unlearn.txt] 50/2176 done, 0 failed, 1.3 min elapsed
+[2_unlearn.txt] 60/2176 done, 0 failed, 1.5 min elapsed
+[2_unlearn.txt] 70/2176 done, 0 failed, 1.7 min elapsed
+[2_unlearn.txt] 80/2176 done, 0 failed, 1.8 min elapsed
+[2_unlearn.txt] 90/2176 done, 0 failed, 1.9 min elapsed
+[2_unlearn.txt] 100/2176 done, 0 failed, 2.1 min elapsed
+[2_unlearn.txt] 110/2176 done, 0 failed, 2.3 min elapsed
+[2_unlearn.txt] 120/2176 done, 0 failed, 2.4 min elapsed
+[2_unlearn.txt] 130/2176 done, 0 failed, 2.6 min elapsed
+[2_unlearn.txt] 140/2176 done, 0 failed, 2.8 min elapsed
+[2_unlearn.txt] 150/2176 done, 0 failed, 2.9 min elapsed
+[2_unlearn.txt] 160/2176 done, 0 failed, 3.1 min elapsed
+[2_unlearn.txt] 170/2176 done, 0 failed, 3.2 min elapsed
+[2_unlearn.txt] 180/2176 done, 0 failed, 3.4 min elapsed
+[2_unlearn.txt] 190/2176 done, 0 failed, 3.6 min elapsed
+[2_unlearn.txt] 200/2176 done, 0 failed, 3.7 min elapsed
+[2_unlearn.txt] 210/2176 done, 0 failed, 3.9 min elapsed
+[2_unlearn.txt] 220/2176 done, 0 failed, 4.2 min elapsed
+[2_unlearn.txt] 230/2176 done, 0 failed, 4.3 min elapsed
+[2_unlearn.txt] 240/2176 done, 0 failed, 4.3 min elapsed
+[2_unlearn.txt] 250/2176 done, 0 failed, 4.5 min elapsed
+[2_unlearn.txt] 260/2176 done, 0 failed, 4.7 min elapsed
+[2_unlearn.txt] 270/2176 done, 0 failed, 4.9 min elapsed
+[2_unlearn.txt] 280/2176 done, 0 failed, 5.1 min elapsed
+[2_unlearn.txt] 290/2176 done, 0 failed, 5.2 min elapsed
+[2_unlearn.txt] 300/2176 done, 0 failed, 5.4 min elapsed
+[2_unlearn.txt] 310/2176 done, 0 failed, 5.5 min elapsed
+[2_unlearn.txt] 320/2176 done, 0 failed, 5.7 min elapsed
+[2_unlearn.txt] 330/2176 done, 0 failed, 5.9 min elapsed
+[2_unlearn.txt] 340/2176 done, 0 failed, 6.0 min elapsed
+[2_unlearn.txt] 350/2176 done, 0 failed, 6.2 min elapsed
+[2_unlearn.txt] 360/2176 done, 0 failed, 6.4 min elapsed
+[2_unlearn.txt] 370/2176 done, 0 failed, 6.5 min elapsed
+[2_unlearn.txt] 380/2176 done, 0 failed, 6.6 min elapsed
+[2_unlearn.txt] 390/2176 done, 0 failed, 6.9 min elapsed
+[2_unlearn.txt] 400/2176 done, 0 failed, 7.0 min elapsed
+[2_unlearn.txt] 410/2176 done, 0 failed, 7.1 min elapsed
+[2_unlearn.txt] 420/2176 done, 0 failed, 7.4 min elapsed
+[2_unlearn.txt] 430/2176 done, 0 failed, 7.5 min elapsed
+[2_unlearn.txt] 440/2176 done, 0 failed, 7.7 min elapsed
+[2_unlearn.txt] 450/2176 done, 0 failed, 7.8 min elapsed
+[2_unlearn.txt] 460/2176 done, 0 failed, 8.1 min elapsed
+[2_unlearn.txt] 470/2176 done, 0 failed, 8.2 min elapsed
+[2_unlearn.txt] 480/2176 done, 0 failed, 8.3 min elapsed
+[2_unlearn.txt] 490/2176 done, 0 failed, 8.4 min elapsed
+[2_unlearn.txt] 500/2176 done, 0 failed, 8.7 min elapsed
+[2_unlearn.txt] 510/2176 done, 0 failed, 8.8 min elapsed
+[2_unlearn.txt] 520/2176 done, 0 failed, 9.0 min elapsed
+[2_unlearn.txt] 530/2176 done, 0 failed, 9.2 min elapsed
+[2_unlearn.txt] 540/2176 done, 0 failed, 9.3 min elapsed
+[2_unlearn.txt] 550/2176 done, 0 failed, 9.4 min elapsed
+[2_unlearn.txt] 560/2176 done, 0 failed, 9.6 min elapsed
+[2_unlearn.txt] 570/2176 done, 0 failed, 9.8 min elapsed
+[2_unlearn.txt] 580/2176 done, 0 failed, 10.0 min elapsed
+[2_unlearn.txt] 590/2176 done, 0 failed, 10.2 min elapsed
+[2_unlearn.txt] 600/2176 done, 0 failed, 10.4 min elapsed
+[2_unlearn.txt] 610/2176 done, 0 failed, 10.4 min elapsed
+[2_unlearn.txt] 620/2176 done, 0 failed, 10.5 min elapsed
+[2_unlearn.txt] 630/2176 done, 0 failed, 10.7 min elapsed
+[2_unlearn.txt] 640/2176 done, 0 failed, 10.9 min elapsed
+[2_unlearn.txt] 650/2176 done, 0 failed, 11.2 min elapsed
+[2_unlearn.txt] 660/2176 done, 0 failed, 11.4 min elapsed
+[2_unlearn.txt] 670/2176 done, 0 failed, 11.5 min elapsed
+[2_unlearn.txt] 680/2176 done, 0 failed, 11.6 min elapsed
+[2_unlearn.txt] 690/2176 done, 0 failed, 11.7 min elapsed
+[2_unlearn.txt] 700/2176 done, 0 failed, 11.9 min elapsed
+[2_unlearn.txt] 710/2176 done, 0 failed, 12.2 min elapsed
+[2_unlearn.txt] 720/2176 done, 0 failed, 12.3 min elapsed
+[2_unlearn.txt] 730/2176 done, 0 failed, 12.5 min elapsed
+[2_unlearn.txt] 740/2176 done, 0 failed, 12.7 min elapsed
+[2_unlearn.txt] 750/2176 done, 0 failed, 12.8 min elapsed
+[2_unlearn.txt] 760/2176 done, 0 failed, 12.9 min elapsed
+[2_unlearn.txt] 770/2176 done, 0 failed, 13.1 min elapsed
+[2_unlearn.txt] 780/2176 done, 0 failed, 13.3 min elapsed
+[2_unlearn.txt] 790/2176 done, 0 failed, 13.4 min elapsed
+[2_unlearn.txt] 800/2176 done, 0 failed, 13.5 min elapsed
+[2_unlearn.txt] 810/2176 done, 0 failed, 13.8 min elapsed
+[2_unlearn.txt] 820/2176 done, 0 failed, 13.9 min elapsed
+[2_unlearn.txt] 830/2176 done, 0 failed, 14.1 min elapsed
+[2_unlearn.txt] 840/2176 done, 0 failed, 14.2 min elapsed
+[2_unlearn.txt] 850/2176 done, 0 failed, 14.4 min elapsed
+[2_unlearn.txt] 860/2176 done, 0 failed, 14.6 min elapsed
+[2_unlearn.txt] 870/2176 done, 0 failed, 14.8 min elapsed
+[2_unlearn.txt] 880/2176 done, 0 failed, 15.0 min elapsed
+[2_unlearn.txt] 890/2176 done, 0 failed, 15.1 min elapsed
+[2_unlearn.txt] 900/2176 done, 0 failed, 15.3 min elapsed
+[2_unlearn.txt] 910/2176 done, 0 failed, 15.5 min elapsed
+[2_unlearn.txt] 920/2176 done, 0 failed, 15.6 min elapsed
+[2_unlearn.txt] 930/2176 done, 0 failed, 15.8 min elapsed
+[2_unlearn.txt] 940/2176 done, 0 failed, 15.9 min elapsed
+[2_unlearn.txt] 950/2176 done, 0 failed, 16.0 min elapsed
+[2_unlearn.txt] 960/2176 done, 0 failed, 16.2 min elapsed
+[2_unlearn.txt] 970/2176 done, 0 failed, 16.4 min elapsed
+[2_unlearn.txt] 980/2176 done, 0 failed, 16.6 min elapsed
+[2_unlearn.txt] 990/2176 done, 0 failed, 16.7 min elapsed
+[2_unlearn.txt] 1000/2176 done, 0 failed, 16.9 min elapsed
+[2_unlearn.txt] 1010/2176 done, 0 failed, 17.1 min elapsed
+[2_unlearn.txt] 1020/2176 done, 0 failed, 17.3 min elapsed
+[2_unlearn.txt] 1030/2176 done, 0 failed, 17.4 min elapsed
+[2_unlearn.txt] 1040/2176 done, 0 failed, 17.6 min elapsed
+[2_unlearn.txt] 1050/2176 done, 0 failed, 17.7 min elapsed
+[2_unlearn.txt] 1060/2176 done, 0 failed, 17.9 min elapsed
+[2_unlearn.txt] 1070/2176 done, 0 failed, 18.0 min elapsed
+[2_unlearn.txt] 1080/2176 done, 0 failed, 18.3 min elapsed
+[2_unlearn.txt] 1090/2176 done, 0 failed, 18.4 min elapsed
+[2_unlearn.txt] 1100/2176 done, 0 failed, 18.5 min elapsed
+[2_unlearn.txt] 1110/2176 done, 0 failed, 18.7 min elapsed
+[2_unlearn.txt] 1120/2176 done, 0 failed, 18.8 min elapsed
+[2_unlearn.txt] 1130/2176 done, 0 failed, 19.0 min elapsed
+[2_unlearn.txt] 1140/2176 done, 0 failed, 19.1 min elapsed
+[2_unlearn.txt] 1150/2176 done, 0 failed, 19.3 min elapsed
+[2_unlearn.txt] 1160/2176 done, 0 failed, 19.5 min elapsed
+[2_unlearn.txt] 1170/2176 done, 0 failed, 19.7 min elapsed
+[2_unlearn.txt] 1180/2176 done, 0 failed, 19.9 min elapsed
+[2_unlearn.txt] 1190/2176 done, 0 failed, 20.0 min elapsed
+[2_unlearn.txt] 1200/2176 done, 0 failed, 20.1 min elapsed
+[2_unlearn.txt] 1210/2176 done, 0 failed, 20.3 min elapsed
+[2_unlearn.txt] 1220/2176 done, 0 failed, 20.5 min elapsed
+[2_unlearn.txt] 1230/2176 done, 0 failed, 20.7 min elapsed
+[2_unlearn.txt] 1240/2176 done, 0 failed, 20.9 min elapsed
+[2_unlearn.txt] 1250/2176 done, 0 failed, 21.1 min elapsed
+[2_unlearn.txt] 1260/2176 done, 0 failed, 21.2 min elapsed
+[2_unlearn.txt] 1270/2176 done, 0 failed, 21.3 min elapsed
+[2_unlearn.txt] 1280/2176 done, 0 failed, 21.5 min elapsed
+[2_unlearn.txt] 1290/2176 done, 0 failed, 21.7 min elapsed
+[2_unlearn.txt] 1300/2176 done, 0 failed, 21.8 min elapsed
+[2_unlearn.txt] 1310/2176 done, 0 failed, 22.0 min elapsed
+[2_unlearn.txt] 1320/2176 done, 0 failed, 22.2 min elapsed
+[2_unlearn.txt] 1330/2176 done, 0 failed, 22.3 min elapsed
+[2_unlearn.txt] 1340/2176 done, 0 failed, 22.5 min elapsed
+[2_unlearn.txt] 1350/2176 done, 0 failed, 22.6 min elapsed
+[2_unlearn.txt] 1360/2176 done, 0 failed, 22.8 min elapsed
+[2_unlearn.txt] 1370/2176 done, 0 failed, 22.9 min elapsed
+[2_unlearn.txt] 1380/2176 done, 0 failed, 23.1 min elapsed
+[2_unlearn.txt] 1390/2176 done, 0 failed, 23.3 min elapsed
+[2_unlearn.txt] 1400/2176 done, 0 failed, 23.5 min elapsed
+[2_unlearn.txt] 1410/2176 done, 0 failed, 23.7 min elapsed
+[2_unlearn.txt] 1420/2176 done, 0 failed, 23.8 min elapsed
+[2_unlearn.txt] 1430/2176 done, 0 failed, 24.0 min elapsed
+[2_unlearn.txt] 1440/2176 done, 0 failed, 24.1 min elapsed
+[2_unlearn.txt] 1450/2176 done, 0 failed, 24.3 min elapsed
+[2_unlearn.txt] 1460/2176 done, 0 failed, 24.4 min elapsed
+[2_unlearn.txt] 1470/2176 done, 0 failed, 24.6 min elapsed
+[2_unlearn.txt] 1480/2176 done, 0 failed, 24.7 min elapsed
+[2_unlearn.txt] 1490/2176 done, 0 failed, 24.9 min elapsed
+[2_unlearn.txt] 1500/2176 done, 0 failed, 25.1 min elapsed
+[2_unlearn.txt] 1510/2176 done, 0 failed, 25.3 min elapsed
+[2_unlearn.txt] 1520/2176 done, 0 failed, 25.4 min elapsed
+[2_unlearn.txt] 1530/2176 done, 0 failed, 25.6 min elapsed
+[2_unlearn.txt] 1540/2176 done, 0 failed, 25.8 min elapsed
+[2_unlearn.txt] 1550/2176 done, 0 failed, 25.9 min elapsed
+[2_unlearn.txt] 1560/2176 done, 0 failed, 26.1 min elapsed
+[2_unlearn.txt] 1570/2176 done, 0 failed, 26.2 min elapsed
+[2_unlearn.txt] 1580/2176 done, 0 failed, 26.4 min elapsed
+[2_unlearn.txt] 1590/2176 done, 0 failed, 26.6 min elapsed
+[2_unlearn.txt] 1600/2176 done, 0 failed, 26.7 min elapsed
+[2_unlearn.txt] 1610/2176 done, 0 failed, 26.8 min elapsed
+[2_unlearn.txt] 1620/2176 done, 0 failed, 27.1 min elapsed
+[2_unlearn.txt] 1630/2176 done, 0 failed, 27.2 min elapsed
+[2_unlearn.txt] 1640/2176 done, 0 failed, 27.3 min elapsed
+[2_unlearn.txt] 1650/2176 done, 0 failed, 27.6 min elapsed
+[2_unlearn.txt] 1660/2176 done, 0 failed, 27.7 min elapsed
+[2_unlearn.txt] 1670/2176 done, 0 failed, 27.9 min elapsed
+[2_unlearn.txt] 1680/2176 done, 0 failed, 28.1 min elapsed
+[2_unlearn.txt] 1690/2176 done, 0 failed, 28.2 min elapsed
+[2_unlearn.txt] 1700/2176 done, 0 failed, 28.3 min elapsed
+[2_unlearn.txt] 1710/2176 done, 0 failed, 28.5 min elapsed
+[2_unlearn.txt] 1720/2176 done, 0 failed, 28.8 min elapsed
+[2_unlearn.txt] 1730/2176 done, 0 failed, 28.9 min elapsed
+[2_unlearn.txt] 1740/2176 done, 0 failed, 29.0 min elapsed
+[2_unlearn.txt] 1750/2176 done, 0 failed, 29.2 min elapsed
+[2_unlearn.txt] 1760/2176 done, 0 failed, 29.3 min elapsed
+[2_unlearn.txt] 1770/2176 done, 0 failed, 29.5 min elapsed
+[2_unlearn.txt] 1780/2176 done, 0 failed, 29.8 min elapsed
+[2_unlearn.txt] 1790/2176 done, 0 failed, 29.9 min elapsed
+[2_unlearn.txt] 1800/2176 done, 0 failed, 30.0 min elapsed
+[2_unlearn.txt] 1810/2176 done, 0 failed, 30.1 min elapsed
+[2_unlearn.txt] 1820/2176 done, 0 failed, 30.3 min elapsed
+[2_unlearn.txt] 1830/2176 done, 0 failed, 30.6 min elapsed
+[2_unlearn.txt] 1840/2176 done, 0 failed, 30.7 min elapsed
+[2_unlearn.txt] 1850/2176 done, 0 failed, 30.9 min elapsed
+[2_unlearn.txt] 1860/2176 done, 0 failed, 31.0 min elapsed
+[2_unlearn.txt] 1870/2176 done, 0 failed, 31.1 min elapsed
+[2_unlearn.txt] 1880/2176 done, 0 failed, 31.3 min elapsed
+[2_unlearn.txt] 1890/2176 done, 0 failed, 31.5 min elapsed
+[2_unlearn.txt] 1900/2176 done, 0 failed, 31.7 min elapsed
+[2_unlearn.txt] 1910/2176 done, 0 failed, 31.8 min elapsed
+[2_unlearn.txt] 1920/2176 done, 0 failed, 32.0 min elapsed
+[2_unlearn.txt] 1930/2176 done, 0 failed, 32.2 min elapsed
+[2_unlearn.txt] 1940/2176 done, 0 failed, 32.3 min elapsed
+[2_unlearn.txt] 1950/2176 done, 0 failed, 32.5 min elapsed
+[2_unlearn.txt] 1960/2176 done, 0 failed, 32.7 min elapsed
+[2_unlearn.txt] 1970/2176 done, 0 failed, 32.9 min elapsed
+[2_unlearn.txt] 1980/2176 done, 0 failed, 33.0 min elapsed
+[2_unlearn.txt] 1990/2176 done, 0 failed, 33.1 min elapsed
+[2_unlearn.txt] 2000/2176 done, 0 failed, 33.3 min elapsed
+[2_unlearn.txt] 2010/2176 done, 0 failed, 33.4 min elapsed
+[2_unlearn.txt] 2020/2176 done, 0 failed, 33.6 min elapsed
+[2_unlearn.txt] 2030/2176 done, 0 failed, 33.8 min elapsed
+[2_unlearn.txt] 2040/2176 done, 0 failed, 33.9 min elapsed
+[2_unlearn.txt] 2050/2176 done, 0 failed, 34.1 min elapsed
+[2_unlearn.txt] 2060/2176 done, 0 failed, 34.3 min elapsed
+[2_unlearn.txt] 2070/2176 done, 0 failed, 34.4 min elapsed
+[2_unlearn.txt] 2080/2176 done, 0 failed, 34.6 min elapsed
+[2_unlearn.txt] 2090/2176 done, 0 failed, 34.8 min elapsed
+[2_unlearn.txt] 2100/2176 done, 0 failed, 35.0 min elapsed
+[2_unlearn.txt] 2110/2176 done, 0 failed, 35.1 min elapsed
+[2_unlearn.txt] 2120/2176 done, 0 failed, 35.3 min elapsed
+[2_unlearn.txt] 2130/2176 done, 0 failed, 35.4 min elapsed
+[2_unlearn.txt] 2140/2176 done, 0 failed, 35.6 min elapsed
+[2_unlearn.txt] 2150/2176 done, 0 failed, 35.7 min elapsed
+[2_unlearn.txt] 2160/2176 done, 0 failed, 35.8 min elapsed
+[2_unlearn.txt] 2170/2176 done, 0 failed, 36.0 min elapsed
+[2_unlearn.txt] 2176/2176 done, 0 failed, 36.2 min elapsed
+python scripts/evaluate.py --dataset cifar10 --arch resnet18 --orig own --version v1
+retrained oracle runs: 64
+evaluating amnesiacs_6 (64 runs)
+evaluating fanchuan_1 (64 runs)
+evaluating finetune (64 runs)
+evaluating forget_8 (64 runs)
+evaluating kookmin_2 (64 runs)
+evaluating l1_sparse (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+evaluating neggrad_plus (64 runs)
+evaluating original (64 runs)
+evaluating random_label (64 runs)
+evaluating salun (64 runs)
+evaluating scrub (64 runs)
+evaluating scrub[tuned_1ep] (64 runs)
+evaluating sebastian_4 (64 runs)
+evaluating seif_3 (64 runs)
+evaluating ssd (64 runs)
+evaluating sun_7 (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+evaluating toshik_5 (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+            name  Score      F     RA     FA     TA  |dFA|  AvgGap    MIA  MIA-Eff  JS(f)  Agree(f)  Time(s)     Speedup  N  Diverged
+    neggrad_plus 0.0730 0.0724 0.9999 0.9046 0.8767 0.0173  0.0151 0.5177   0.2621 0.0561    0.8848  77.1377      8.1836 64    0.0000
+     sebastian_4 0.0588 0.0632 0.9655 0.8792 0.8389 0.0081  0.0192 0.5234   0.2361 0.0669    0.8626  35.3575     17.8538 64    0.0000
+        forget_8 0.0475 0.0611 0.8658 0.7982 0.7816 0.0892  0.0882 0.5108   0.2742 0.1027    0.8005  42.2756     14.9322 64    0.0000
+       kookmin_2 0.0276 0.0305 0.9561 0.8720 0.8227 0.0153  0.0380 0.5275   0.1854 0.0748    0.8492  46.9524     13.4448 64    0.0000
+     amnesiacs_6 0.0197 0.0225 0.9215 0.8925 0.8244 0.0051  0.0497 0.5384   0.1613 0.0785    0.8482  37.7727     16.7123 64    0.0000
+       l1_sparse 0.0182 0.0193 0.9840 0.8405 0.8339 0.0468  0.0348 0.5013   0.2732 0.0781    0.8424 111.5274      5.6602 64    0.0000
+        finetune 0.0164 0.0196 0.9172 0.8004 0.7956 0.0869  0.0710 0.5013   0.2728 0.0973    0.8092  43.8212     14.4055 64    0.0000
+           sun_7 0.0128 0.0131 0.9819 0.9467 0.8671 0.0594  0.0470 0.5483   0.1229 0.0571    0.8860  75.9114      8.3158 64    0.0000
+             ssd 0.0085 0.0085 0.9853 0.9847 0.8847 0.0973  0.0613 0.5709   0.0939 0.0578    0.8905  12.4401     50.7447 64    0.0000
+          seif_3 0.0084 0.0118 0.8473 0.7683 0.7305 0.1190  0.1085 0.5214   0.2557 0.1328    0.7556  36.0442     17.5137 64    0.0000
+      fanchuan_1 0.0044 0.0043 1.0000 0.9512 0.8861 0.0639  0.0361 0.5196   0.2952 0.0635    0.8825  32.9728     19.1451 64    0.0000
+        toshik_5 0.0033 0.0042 0.8644 0.7852 0.7803 0.1022  0.0895 0.5010   0.2634 0.1137    0.7873  26.7540     23.5953 64    0.0000
+    random_label 0.0031 0.0031 0.9999 0.8299 0.8753 0.0575  0.1318 0.5819   0.6875 0.1388    0.8016  17.4254     36.2268 64    0.0000
+           salun 0.0031 0.0031 0.9999 0.8296 0.8751 0.0578  0.1327 0.5822   0.6906 0.1393    0.8017  18.6171     33.9079 64    0.0000
+scrub[tuned_1ep] 0.0006 0.0037 0.3779 0.3697 0.3820 0.5177  0.4636 0.5019   0.4595 0.3658    0.3731   8.7742     71.9462 64    0.0000
+           scrub 0.0001 0.0051 0.1544 0.1535 0.1569 0.7338  0.6434 0.4994   0.5142 0.5124    0.1536  22.4333     28.1398 64    9.0000
+        original 0.0000 0.0000 0.9872 0.9862 0.8862 0.0989  0.0617 0.5715   0.0932 0.0577    0.8912   0.0008 782156.7631 64    0.0000
+retrain (oracle)    NaN    NaN 0.9897 0.8873 0.8792    NaN     NaN 0.5053   0.2318    NaN       NaN 631.2672         NaN 64       NaN
+
+results in /home/mnazari/Projects/MachineUnlearning/artifacts/cifar10/resnet18/v1/own/results
+python scripts/evaluate.py --dataset cifar10 --arch resnet18 --orig challenge --version v1
+retrained oracle runs: 64
+evaluating amnesiacs_6 (64 runs)
+evaluating fanchuan_1 (64 runs)
+evaluating finetune (64 runs)
+evaluating forget_8 (64 runs)
+evaluating kookmin_2 (64 runs)
+evaluating l1_sparse (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+evaluating neggrad_plus (64 runs)
+evaluating original (64 runs)
+evaluating random_label (64 runs)
+evaluating salun (64 runs)
+evaluating scrub (64 runs)
+evaluating scrub[tuned_1ep] (64 runs)
+evaluating sebastian_4 (64 runs)
+evaluating seif_3 (64 runs)
+evaluating ssd (64 runs)
+evaluating sun_7 (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+evaluating toshik_5 (64 runs)
+/home/mnazari/Projects/MachineUnlearning/src/unlearn/forget_quality.py:151: RuntimeWarning: All-NaN axis encountered
+  np.nanmax([np.log(1 - delta - fpr_n) - np.log(fnr_n),
+            name  Score      F     RA     FA     TA  |dFA|  AvgGap    MIA  MIA-Eff  JS(f)  Agree(f)  Time(s)     Speedup  N  Diverged
+    neggrad_plus 0.0764 0.0761 0.9999 0.9047 0.8739 0.0173  0.0185 0.5184   0.2729 0.0590    0.8804  76.6923      8.2312 64    0.0000
+     sebastian_4 0.0614 0.0659 0.9692 0.8728 0.8366 0.0146  0.0255 0.5183   0.2561 0.0704    0.8569  36.2393     17.4194 64    0.0000
+       kookmin_2 0.0437 0.0473 0.9750 0.8819 0.8253 0.0054  0.0311 0.5293   0.1814 0.0738    0.8517  47.8219     13.2004 64    0.0000
+        forget_8 0.0415 0.0530 0.8725 0.7960 0.7802 0.0913  0.0873 0.5093   0.2737 0.1069    0.7958  43.5135     14.5074 64    0.0000
+     amnesiacs_6 0.0250 0.0287 0.9259 0.8945 0.8175 0.0071  0.0514 0.5425   0.1587 0.0840    0.8408  36.9242     17.0963 64    0.0000
+       l1_sparse 0.0180 0.0191 0.9852 0.8420 0.8336 0.0453  0.0345 0.5047   0.2745 0.0778    0.8427 111.0679      5.6836 64    0.0000
+           sun_7 0.0151 0.0154 0.9871 0.9516 0.8639 0.0643  0.0467 0.5498   0.1270 0.0599    0.8836  75.2600      8.3878 64    0.0000
+        finetune 0.0146 0.0180 0.9030 0.7898 0.7849 0.0976  0.0815 0.5017   0.2794 0.1044    0.7987  43.4553     14.5268 64    0.0000
+          seif_3 0.0112 0.0156 0.8629 0.7671 0.7238 0.1202  0.1092 0.5235   0.2660 0.1343    0.7507  36.9185     17.0989 64    0.0000
+             ssd 0.0103 0.0103 0.9893 0.9878 0.8793 0.1005  0.0610 0.5761   0.0886 0.0651    0.8855  12.9212     48.8550 64    0.0000
+      fanchuan_1 0.0047 0.0046 0.9999 0.9553 0.8839 0.0680  0.0457 0.5141   0.3316 0.0668    0.8797  31.8407     19.8258 64    0.0000
+        toshik_5 0.0045 0.0057 0.8812 0.7839 0.7836 0.1035  0.0853 0.4976   0.2656 0.1133    0.7860  26.8319     23.5267 64    0.0000
+           salun 0.0032 0.0031 0.9999 0.7864 0.8730 0.1010  0.1657 0.6078   0.7773 0.1654    0.7657  18.5949     33.9484 64    0.0000
+    random_label 0.0032 0.0031 0.9999 0.7879 0.8734 0.0994  0.1644 0.6084   0.7742 0.1649    0.7679  16.6457     37.9238 64    0.0000
+scrub[tuned_1ep] 0.0007 0.0042 0.3873 0.3788 0.3904 0.5085  0.4591 0.5028   0.4685 0.3593    0.3826   8.7773     71.9207 64    0.0000
+           scrub 0.0002 0.0069 0.1622 0.1590 0.1643 0.7283  0.6420 0.5017   0.5290 0.4931    0.1601  22.8672     27.6058 64    0.0000
+        original 0.0000 0.0000 0.9948 0.9932 0.8834 0.1059  0.0655 0.5777   0.0849 0.0638    0.8882   0.0008 809410.0220 64    0.0000
+retrain (oracle)    NaN    NaN 0.9897 0.8873 0.8792    NaN     NaN 0.5053   0.2318    NaN       NaN 631.2672         NaN 64       NaN
+
+results in /home/mnazari/Projects/MachineUnlearning/artifacts/cifar10/resnet18/v1/challenge/results

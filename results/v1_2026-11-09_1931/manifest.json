@@ -1,0 +1,40 @@
+{
+ "run_id": "v1_2026-11-09_1931",
+ "collected": "2026-11-09T21:17:26",
+ "slurm_job": "10709",
+ "host": "head0",
+ "code_sha": "aa792ee578884182",
+ "experiments": {
+  "cifar10_resnet18": {
+   "dataset": "cifar10",
+   "arch": "resnet18",
+   "version": "v1",
+   "n_retrain": 64,
+   "n_runs": 64,
+   "methods": "all",
+   "extra_hparams": {
+    "scrub": {
+     "tuned_1ep": {
+      "epochs": 1,
+      "msteps": 1
+     }
+    }
+   },
+   "batch_size": 64,
+   "artifacts_dir": "artifacts/cifar10/resnet18/v1",
+   "reference_models": 65,
+   "origs": {
+    "own": {
+     "results": "results/v1_2026-11-09_1931/cifar10_resnet18/own",
+     "runs": "artifacts/cifar10/resnet18/v1/own/runs",
+     "models": "artifacts/cifar10/resnet18/v1/own/models"
+    },
+    "challenge": {
+     "results": "results/v1_2026-11-09_1931/cifar10_resnet18/challenge",
+     "runs": "artifacts/cifar10/resnet18/v1/challenge/runs",
+     "models": "artifacts/cifar10/resnet18/v1/challenge/models"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,8 @@
+name,n_per_side,F,fraction_of_ceiling
+retrain vs retrain (ceiling),32,0.1856,1.0
+neggrad_plus,32,0.0889,0.479
+sebastian_4,32,0.0794,0.428
+forget_8,32,0.0776,0.418
+kookmin_2,32,0.0468,0.252
+finetune,32,0.0344,0.185
+original,32,0.0000,0.0
