@@ -174,6 +174,86 @@ restored while forget outputs keep their randomness.
 apply Propositions 1–3 to ΔW = ξ; (d) follows from Proposition 1 and the
 triangle inequality. ∎
 
+## Per-image random targets (`phi_target="copula"`, `copula_rho=ρ`)
+
+The randomised edit above spreads random directions through the whole edit
+space, which also costs retain accuracy. A cheaper source of model-to-model
+variation is the **target** itself. Each run gives every forget image its own
+target confidence, still drawn from the clean distribution:
+
+- u0_i = (rank_i + ½)/n, image i's quantile under the original model, and
+  g_i = Φ⁻¹(u0_i);
+- with ξ_i ~ N(0, 1) iid per run, u_i = Φ(ρ g_i + √(1−ρ²) ξ_i);
+- target t_i = Q_clean(u_i), and the logit term becomes (1/n) Σ_i (z_i − t_i)².
+
+**Proposition 6 (exact clean marginal, controlled spread).** (a) If g_i is
+N(0, 1) (true for the rank transform as n → ∞), then ρ g_i + √(1−ρ²) ξ_i is
+N(0, 1), so u_i is uniform and t_i has exactly the clean distribution: in
+expectation each run aims at the same target as the W2 loss. (b) For two
+runs s ≠ s', the Gaussian scores of image i have correlation ρ², so the
+spread of an image's target across runs grows continuously from 0 (ρ = 1,
+the monotone W2 coupling) to the full clean spread (ρ = 0).
+(c) The loss is a sum of per-image squared errors, so with the edit
+restricted to the geig subspace, Proposition 3 still bounds the keep change
+by 1/γ_r times the forget change.
+
+*Proof.* (a) A sum of independent Gaussians with variances ρ² and 1 − ρ² is
+N(0, 1), and Φ maps N(0, 1) to U(0, 1); Q_clean then pushes U(0, 1) onto
+the clean distribution. (b) Cov(ρg + √(1−ρ²)ξ, ρg + √(1−ρ²)ξ') = ρ² for
+independent ξ and ξ'. (c) The restriction acts on ΔW and does not depend
+on the loss. ∎
+
+`clean_random=True` also draws the clean reference images at random per
+run, so each run's shells come from a different clean sample. The 5,000
+validation images are never trained on, and up to all of them can serve as
+the reference.
+
+### Rank signal (`rank_signal="views"`) and the choice of ρ
+
+The copula needs a rank g_i for each forget image. With `rank_signal="orig"`
+it is the original model's own confidence on the image. That confidence is
+inflated by memorisation of the exact pixels.
+
+`rank_signal="views"` ranks instead by the original model's mean confidence
+over 16 near-copies of the image: cyclic shifts by ±2 px in 8 directions,
+each also mirrored. The model never saw these copies pixel for pixel, so
+their mean confidence measures how typical the image is rather than how well
+it was memorised. This is the same augmentation trick membership attacks use
+to estimate a sample's out-of-training confidence, used here for the
+opposite purpose. It costs one extra forward pass over the forget set.
+
+Measured on the 64 retrained models (CIFAR-10, ResNet-18): the correlation
+of the rank signal with the retrained per-image mean confidence is 0.768
+for the image itself and 0.859 for the 16-view mean (R² 0.59 → 0.74).
+
+**Proposition 7 (ρ is the signal's reliability).** Suppose that, within a
+class, the Gaussianised ranks of the signal, g, and of one retrained model's
+confidence, h, are jointly standard normal with correlation ρ*. Then
+h | g ~ N(ρ* g, 1 − ρ*²). The copula target with ρ = ρ* is therefore a draw
+from the exact conditional distribution of a retrained model's confidence
+given the signal, mapped through the clean marginal. Its per-image mean is
+the best (least-squares) predictor of h from g, and its per-image spread
+across runs equals the retrained models' residual spread.
+
+*Proof.* This is the conditional law of a bivariate normal; the copula's
+(ρg + √(1−ρ²)ξ) has exactly this law when ρ = ρ*. ∎
+
+Check against the sweeps: for the original-confidence signal ρ* = 0.686,
+and the best ρ found by search was 0.7. For the 16-view signal ρ* = 0.768.
+A better signal therefore needs less added randomness: its targets sit
+closer to where retraining puts each image.
+
+## Cost (`moment_dtype`)
+
+Almost all of the run time goes into the second-moment matrices E[x xᵀ] of
+the layer inputs (edit space and repair). The attack itself takes about
+10 s. `moment_dtype="float32"` sums each batch in float32 and accumulates the
+batch sums in float64. All solves and eigendecompositions stay in float64.
+
+On a Quadro RTX 8000 (slow float64), one run takes 63 s instead of 260 s.
+Accuracies agree to within 0.1 points and predictions agree on 99.7% of
+images. NegGrad+ takes 118 s on the same GPU.
+
 ## Phase 2: closed-form repair (C&W-style trade-off)
 
 After a hard push (no keep term, larger ε), the layers are repaired front to

@@ -47,6 +47,7 @@ Phase 2, repair (``repair=True``; closed-form, C&W-style trade-off).
 
 import copy
 import math
+import time
 from itertools import cycle
 
 import torch
@@ -61,7 +62,8 @@ INFO = {"rank": None, "team": "ours",
         "family": "weight-space attack: class-shell push in rare subspaces + closed-form repair"}
 
 DEFAULTS = {
-    "n_clean": 200,          # clean held-out images (balanced across classes)
+    "n_clean": 200,          # clean held-out images (balanced across classes; val has 5,000)
+    "clean_random": False,   # draw the clean images at random per seed (else the first ones)
     "n_keep_retain": 2000,   # retain images added to the keep set (balanced); -1 = all
     "n_keep_push": 2200,     # keep images whose outputs the push term preserves (first n)
     "n_stat_forget": 2000,   # forget images used for covariance / channel statistics
@@ -74,6 +76,13 @@ DEFAULTS = {
     "cw_lr": 1e-4,
     "forget_batch": 512,
     "w_logit": 1.0,          # confidence shell at the logits
+    "phi_target": "w2",      # "w2": match the batch's confidence distribution (monotone
+                             # coupling); "copula": per-image random target, see _copula_targets
+    "copula_rho": 0.9,       # copula: correlation with the image's own rank (1 = w2-like, 0 = iid)
+    "copula_class": False,   # copula: rank within the class and use that class's clean quantiles
+    "rank_signal": "orig",   # copula ranks from: "orig" = the original model's phi on the image,
+                             # "views" = its mean phi over 16 shifted/flipped copies (see _view_phi)
+    "view_shift": 2,         # views: shift in pixels (8 directions x {as is, flipped})
     "w_feat": 1.0,           # angle / radius shells, averaged over layers
     "w_sep": 1.0,            # other-class separation hinge
     "sep_margin": 1.0,
@@ -95,6 +104,10 @@ DEFAULTS = {
     "repair": False,
     "repair_mu": 1.0,        # weight of keeping the pushed forget outputs
     "repair_lam": 1e-2,      # ridge toward the pushed weights, relative to tr(S_K)/d
+    # cost: second moments are summed per batch in this dtype and accumulated in
+    # float64 (solves / eigendecompositions are always float64). float32 is ~25x
+    # faster on GPUs with slow float64; the batch sums are well conditioned.
+    "moment_dtype": "float64",
 }
 
 
@@ -162,7 +175,7 @@ def _forward(net, taps, x):
     return logits, [t.float() for t in taps.out]
 
 
-def _patches(mod, x, aug):
+def _patches(mod, x, aug, dtype=torch.float64):
     """Layer input as rows of the linear map y = W x (im2col for conv)."""
     if isinstance(mod, nn.Conv2d):
         p = F.unfold(x, mod.kernel_size, dilation=mod.dilation, padding=mod.padding,
@@ -170,7 +183,7 @@ def _patches(mod, x, aug):
         p = p.transpose(1, 2).reshape(-1, p.shape[1])
     else:
         p = x.reshape(len(x), -1)
-    p = p.double()
+    p = p.to(dtype)
     if aug:
         p = torch.cat([p, torch.ones(len(p), 1, dtype=p.dtype, device=p.device)], 1)
     return p
@@ -224,7 +237,55 @@ def _shell_stats(net, taps, x, y, k):
     phi = _logit_conf(logits, y)
     pm = torch.stack([phi[y == c].mean() for c in range(k)])
     ps = (phi - pm[y]).std().clamp_min(1e-3)
-    return stats, {"m": pm, "s": ps, "z": ((phi - pm[y]) / ps).sort().values}
+    z = (phi - pm[y]) / ps
+    return stats, {"m": pm, "s": ps, "z": z.sort().values,
+                   "zc": [z[y == c].sort().values for c in range(k)]}
+
+
+def _quantile(ref, u):
+    """Linear-interpolated quantile of the sorted 1-D tensor ref at levels u in (0, 1)."""
+    pos = u.clamp(0, 1) * (len(ref) - 1)
+    lo = pos.floor().long()
+    hi = (lo + 1).clamp(max=len(ref) - 1)
+    return ref[lo] + (ref[hi] - ref[lo]) * (pos - lo)
+
+
+def _copula_targets(z0, ref, rho, gen=None):
+    """Per-image random targets with exactly the clean marginal (Gaussian copula).
+
+    u0_i = (rank_i + 1/2)/n is image i's quantile under the original model and
+    g_i = Phi^-1(u0_i). With xi_i ~ N(0, 1) iid, rho*g_i + sqrt(1 - rho^2)*xi_i is
+    N(0, 1) whenever g_i is, so u_i = Phi(.) is uniform and the target
+    Q_ref(u_i) follows the clean distribution (the same target as "w2"). Across
+    seeds the targets of one image have correlation rho^2 in the Gaussian scale:
+    rho = 1 recovers the monotone (w2) coupling, rho < 1 adds a per-image,
+    rank-preserving-on-average spread.
+    """
+    n = len(z0)
+    u0 = (z0.argsort().argsort().double() + 0.5) / n
+    nd = torch.distributions.Normal(0.0, 1.0)
+    g = nd.icdf(u0)
+    xi = torch.randn(n, generator=gen, dtype=torch.float64, device=z0.device)
+    u = nd.cdf(rho * g + math.sqrt(max(0.0, 1 - rho ** 2)) * xi)
+    return _quantile(ref.double(), u).float()
+
+
+@torch.no_grad()
+def _view_phi(net, x, y, shift, bs=500):
+    """Mean logit confidence of the original model over 16 near-copies of each image
+    (cyclic shifts by +-shift px in 8 directions, each also mirrored). The exact
+    training image carries the memorised confidence; its near-copies were never
+    seen pixel for pixel, so their mean confidence ranks images closer to how a
+    model that never saw them would (docs/lash.md, "Rank signal")."""
+    s = shift
+    offs = [(s, 0), (-s, 0), (0, s), (0, -s), (s, s), (-s, -s), (s, -s), (-s, s)]
+    tot = torch.zeros(len(x), device=x.device)
+    for i in range(0, len(x), bs):
+        xb, yb = x[i:i + bs], y[i:i + bs]
+        for xv in (xb, xb.flip(3)):
+            for dx, dy in offs:
+                tot[i:i + bs] += _logit_conf(net(torch.roll(xv, (dy, dx), (2, 3))), yb)
+    return tot / (2 * len(offs))
 
 
 def _w1(z, ref):
@@ -240,14 +301,14 @@ def _w1(z, ref):
 # ------------------------------------------------- edit-space restrictions
 
 @torch.no_grad()
-def _second_moments(net, mods, x, bs=500):
+def _second_moments(net, mods, x, bs=500, dtype=torch.float64):
     """E[x x^T] of every module's input patches over images x (one forward pass)."""
     acc = {name: [0, 0] for name, _ in mods}
     hooks = []
     for name, m in mods:
         def pre(mod, inp, name=name):
-            p = _patches(mod, inp[0], aug=False)
-            acc[name][0] = acc[name][0] + p.T @ p
+            p = _patches(mod, inp[0], aug=False, dtype=dtype)
+            acc[name][0] = acc[name][0] + (p.T @ p).double()
             acc[name][1] += len(p)
         hooks.append(m.register_forward_pre_hook(pre))
     try:
@@ -322,7 +383,7 @@ def _channel_masks(net, mods, xk, xf, which, frac):
 # ---------------------------------------------------------------- repair
 
 @torch.no_grad()
-def _repair(net, orig, pushed, mods, xk, xf, mu, lam):
+def _repair(net, orig, pushed, mods, xk, xf, mu, lam, dtype=torch.float64):
     """Closed-form layer-wise minimiser (see module docstring), front to back."""
     mods_o = dict(orig.named_modules())
     mods_p = dict(pushed.named_modules())
@@ -333,9 +394,9 @@ def _repair(net, orig, pushed, mods, xk, xf, mu, lam):
         def moments(x, net_t, mod_t):
             s, c, n = 0, 0, 0
             for xin, xt in zip(_module_inputs(net, m, x), _module_inputs(net_t, mod_t, x)):
-                p, pt = _patches(m, xin, aug), _patches(m, xt, aug)
-                s = s + p.T @ p
-                c = c + pt.T @ p
+                p, pt = _patches(m, xin, aug, dtype), _patches(m, xt, aug, dtype)
+                s = s + (p.T @ p).double()
+                c = c + (pt.T @ p).double()
                 n += len(p)
             return s / n, c / n
 
@@ -360,8 +421,28 @@ def _repair(net, orig, pushed, mods, xk, xf, mu, lam):
 
 # ---------------------------------------------------------------- method
 
+class _Clock:
+    """Wall time per phase (GPU synchronised), printed at the end of a run."""
+    def __init__(self):
+        self.t, self.parts = time.perf_counter(), []
+
+    def mark(self, name):
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+        now = time.perf_counter()
+        self.parts.append((name, now - self.t))
+        self.t = now
+
+    def report(self):
+        tot = sum(s for _, s in self.parts)
+        print("[lash timing] " + "  ".join(f"{n} {s:.1f}s" for n, s in self.parts)
+              + f"  total {tot:.1f}s", flush=True)
+
+
 def unlearning(net, retain, forget, validation, **hparams):
     hp = merge_hparams(DEFAULTS, hparams, "lash")
+    clock = _Clock()
+    mdt = {"float64": torch.float64, "float32": torch.float32}[hp["moment_dtype"]]
     net.to(DEVICE).eval()   # inputs fixed, batch norm frozen: only weights change
     for p in net.parameters():
         p.requires_grad_(False)
@@ -374,7 +455,9 @@ def unlearning(net, retain, forget, validation, **hparams):
         stages = []
     taps = _Taps(stages)
 
-    xc, yc = _balanced(validation, hp["n_clean"], k)
+    clean_src = (torch.utils.data.DataLoader(validation.dataset, batch_size=500, shuffle=True)
+                 if hp["clean_random"] else validation)
+    xc, yc = _balanced(clean_src, hp["n_clean"], k)
     xc, yc = xc.to(DEVICE), yc.to(DEVICE)
     stats, lstats = _shell_stats(net, taps, xc, yc, k)
     xk = xc
@@ -392,12 +475,13 @@ def unlearning(net, retain, forget, validation, **hparams):
         keep_logp = F.log_softmax(keep_logits.float(), 1)
         keep_var = [f.var(0).mean().clamp_min(1e-6) for f in keep_feats]
 
+    clock.mark("load+shells")
     mods = _editable_modules(net)
     # edit-space restrictions, computed on the original model
     proj, masks = {}, {}
     if hp["subspace"] != "none":
-        sk = _second_moments(net, mods, xk)
-        sf = _second_moments(net, mods, xf_stat) if hp["subspace"] == "geig" else None
+        sk = _second_moments(net, mods, xk, dtype=mdt)
+        sf = _second_moments(net, mods, xf_stat, dtype=mdt) if hp["subspace"] == "geig" else None
         for name, _ in mods:
             proj[name] = (_lowkeep_projector(sk[name], hp["rho"]) if hp["subspace"] == "lowkeep"
                           else _geig_projector(sf[name], sk[name], hp["geig_frac"], hp["geig_reg"],
@@ -406,13 +490,42 @@ def unlearning(net, retain, forget, validation, **hparams):
     if hp["channels"] != "all":
         masks = _channel_masks(net, mods, xk, xf_stat, hp["channels"], hp["channel_frac"])
 
+    clock.mark("edit-space")
     names = [n for n, _ in mods]
     params = [m.weight for _, m in mods]
     theta0 = {n: p.detach().clone() for n, p in zip(names, params)}
     norm0 = {n: theta0[n].norm() for n in names}
     frozen = {n for n in names if hp["subspace"] != "none" and proj[n] is None}
-    forget_ld = cycle(torch.utils.data.DataLoader(forget.dataset, batch_size=hp["forget_batch"],
-                                                  shuffle=True))
+    # whole forget set in memory, batches by index (per-image targets need indices)
+    fx, fy = [], []
+    for x, y in torch.utils.data.DataLoader(forget.dataset, batch_size=500, shuffle=False):
+        fx.append(x)
+        fy.append(y)
+    fx, fy = torch.cat(fx).to(DEVICE), torch.cat(fy).to(DEVICE)
+    phi_tgt = None
+    if hp["phi_target"] == "copula":
+        with torch.no_grad():
+            if hp["rank_signal"] == "views":
+                phi0 = _view_phi(net, fx, fy, hp["view_shift"])
+            else:
+                phi0 = _logit_conf(torch.cat([net(fx[i:i + 500]) for i in range(0, len(fx), 500)]), fy)
+            z0 = (phi0 - lstats["m"][fy]) / lstats["s"]
+        if hp["copula_class"]:
+            phi_tgt = torch.empty_like(z0)
+            for c in range(k):
+                m = fy == c
+                if m.any():
+                    phi_tgt[m] = _copula_targets(z0[m], lstats["zc"][c], hp["copula_rho"])
+        else:
+            phi_tgt = _copula_targets(z0, lstats["z"], hp["copula_rho"])
+
+    def forget_batches():
+        while True:
+            perm = torch.randperm(len(fx), device=DEVICE)
+            for i in range(0, len(perm) - hp["forget_batch"] + 1, hp["forget_batch"]):
+                yield perm[i:i + hp["forget_batch"]]
+
+    forget_ld = forget_batches()
     n_layers = max(len(stages), 1)
 
     def restrict(n, g):
@@ -426,14 +539,15 @@ def unlearning(net, retain, forget, validation, **hparams):
         return g
 
     def objective():
-        xf, yf = next(forget_ld)
-        xf, yf = xf.to(DEVICE), yf.to(DEVICE)
+        idx = next(forget_ld)
+        xf, yf = fx[idx], fy[idx]
         nf = len(xf)
         use_keep = len(xk_push) > 0
         logits, feats = _forward(net, taps, torch.cat([xf, xk_push]) if use_keep else xf)
         lf, lk = logits[:nf], logits[nf:]
         z_phi = (_logit_conf(lf, yf) - lstats["m"][yf]) / lstats["s"]
-        loss = hp["w_logit"] * _w1(z_phi, lstats["z"])
+        loss = hp["w_logit"] * (_w1(z_phi, lstats["z"]) if phi_tgt is None
+                                else (z_phi - phi_tgt[idx]).pow(2).mean())
         keep = (F.kl_div(F.log_softmax(lk.float(), 1), keep_logp, log_target=True,
                          reduction="batchmean") if use_keep else 0.0)
         shell, sep = 0.0, 0.0
@@ -463,6 +577,7 @@ def unlearning(net, retain, forget, validation, **hparams):
 
     if hp["noise"] > 0 and hp["noise_at"] == "start":
         add_noise()
+    clock.mark("targets")
     # phase 1: push
     for p in params:
         p.requires_grad_(True)
@@ -497,14 +612,17 @@ def unlearning(net, retain, forget, validation, **hparams):
         p.requires_grad_(False)
         p.grad = None
     taps.remove()
+    clock.mark("push")
     if hp["noise"] > 0 and hp["noise_at"] == "end":
         add_noise()
 
     # phase 2: closed-form repair
     if hp["repair"]:
         pushed = copy.deepcopy(net)
-        _repair(net, orig, pushed, mods, xk, xf_stat, hp["repair_mu"], hp["repair_lam"])
+        _repair(net, orig, pushed, mods, xk, xf_stat, hp["repair_mu"], hp["repair_lam"], mdt)
         del pushed
+        clock.mark("repair")
+    clock.report()
     del orig
     for p in net.parameters():
         p.requires_grad_(True)
